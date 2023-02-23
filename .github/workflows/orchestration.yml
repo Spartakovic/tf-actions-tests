@@ -2,6 +2,7 @@ name: gid
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
     inputs:
       command_type:
