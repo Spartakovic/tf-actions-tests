@@ -2,6 +2,6 @@ FROM python:alpine
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY main.py .
+COPY main.py /main.py
 
-ENTRYPOINT ["python", "main.py"]
+ENTRYPOINT ["python", "/main.py"]
