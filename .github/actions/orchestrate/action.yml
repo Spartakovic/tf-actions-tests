@@ -11,5 +11,7 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    GITHUB_EVENT: ${{ inputs.event_payload }}
   args:
     - ${{ inputs.path-to-tf-project }}
