@@ -28,13 +28,6 @@ if event_name == 'pull_request':
     if event['action'] in ['closed']:
         if latest_closed_pr.number == event['number']:
             github.get_repo(github_repo).get_workflow("orchestration.yml").create_dispatch(oldest_open_pr.ref, {"command_type": "plan"})
-elif event_name == 'push':
-    if not oldest_open_pr:
-        print("No pr's open. Running terraform plan")
-    elif oldest_open_pr.head.sha == event['after']:
-        print("This is the oldest open PR. Running terraform plan")
-    else:
-        print("This is not the oldest open PR. Skipping terraform plan")
 elif event_name == 'workflow_dispatch':
     if event['inputs']['command_type'] == 'plan':
         print("Running terraform plan")
