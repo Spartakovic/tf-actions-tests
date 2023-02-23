@@ -21,8 +21,8 @@ latest_closed_pr = all_closed_prs[0] if all_closed_prs.totalCount > 0 else None
 
 if event_name == 'pull_request':
     if event['action'] in ['opened', 'reopened', 'synchronize']:
-        if not all_open_prs:
-            print("No open PRs found. Running terraform plan")
+        if oldest_open_pr and oldest_open_pr.number == event['number']:
+            print('This is the oldest open PR, so we will run plan')
         else:
             print("There are currently open PRs. Skipping terraform plan")
     if event['action'] in ['closed']:
