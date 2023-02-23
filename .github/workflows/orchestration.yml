@@ -2,10 +2,15 @@ name: gid
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      command_type:
+        description: 'command type to control flow'
+        required: true
+        type: choice
+        options:
+        - plan
 
 jobs:
   orchestrate:
@@ -17,3 +22,6 @@ jobs:
       - name: Run Digger Action
         id: digger
         uses: ./.github/actions/orchestrate
+        with:
+          path-to-tf-project: '.'
+          event_payload: ${{ toJson(github.event) }}
