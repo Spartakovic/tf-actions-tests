@@ -12,10 +12,11 @@ github_token = os.getenv("GITHUB_TOKEN")
 github_repo = os.getenv("GITHUB_REPOSITORY")
 
 github = Github(login_or_token=github_token)
-all_open_prs = github.get_repo(github_repo).get_pulls(state='open')
-oldest_open_pr = all_open_prs.reversed[0]
+all_open_prs = github.get_repo(github_repo).get_pulls(state='open', direction='asc')
+oldest_open_pr = all_open_prs[0] if all_open_prs.totalCount > 0 else None
 
-latest_closed_pr = github.get_repo(github_repo).get_pulls(state='closed', sort='updated').reversed[0]
+all_closed_prs = github.get_repo(github_repo).get_pulls(state='closed', sort='updated', direction='desc')
+latest_closed_pr = all_closed_prs[0] if all_closed_prs.totalCount > 0 else None
 
 if event['name'] == 'pull_request':
     if event['action'] in ['opened', 'reopened', 'synchronize']:
