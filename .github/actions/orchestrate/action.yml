@@ -8,10 +8,14 @@ inputs:
   event_payload:
     description: 'event'
     required: true
+  event_name:
+    description: 'event name'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
     GITHUB_EVENT: ${{ inputs.event_payload }}
+    GITHUB_EVENT_NAME: ${{ inputs.event_name }}
   args:
     - ${{ inputs.path-to-tf-project }}

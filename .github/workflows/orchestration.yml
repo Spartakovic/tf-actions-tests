@@ -25,3 +25,4 @@ jobs:
         with:
           path-to-tf-project: '.'
           event_payload: ${{ toJson(github.event) }}
+          event_name: ${{ github.event_name }}
