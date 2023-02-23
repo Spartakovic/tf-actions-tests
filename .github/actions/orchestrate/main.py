@@ -21,14 +21,19 @@ latest_closed_pr = all_closed_prs[0] if all_closed_prs.totalCount > 0 else None
 
 if event_name == 'pull_request':
     if event['action'] in ['opened', 'reopened', 'synchronize']:
-        if not all_open_prs:
-            print("No open PRs found. Running terraform plan")
+        if oldest_open_pr and oldest_open_pr.number == event['number']:
+            print('This is the oldest open PR, so we will run plan')
         else:
             print("There are currently open PRs. Skipping terraform plan")
     if event['action'] in ['closed']:
         if latest_closed_pr.number == event['number']:
             github.get_repo(github_repo).get_workflow("orchestration.yml").create_dispatch(oldest_open_pr.ref, {"command_type": "plan"})
 elif event_name == 'push':
+    print(oldest_open_pr.head.sha)
+    print(oldest_open_pr.head.ref)
+    print(oldest_open_pr.base.ref)
+    print(oldest_open_pr.base.sha)
+    print(event)
     if not oldest_open_pr:
         print("No pr's open. Running terraform plan")
     elif oldest_open_pr.head.ref == event['ref']:
